@@ -1,4 +1,3 @@
-```html
 <!DOCTYPE html>
 <html lang="id" class="scroll-smooth">
 <head>
@@ -58,7 +57,6 @@
             background-color: #061c1a;
             color: #f3f4f6;
             overflow-x: hidden;
-            /* Logo Stripe Decorative Background Effect */
             background-image: repeating-linear-gradient(
                 -45deg,
                 rgba(27, 160, 152, 0.05),
@@ -69,16 +67,16 @@
         }
 
         .glass-panel {
-            background: rgba(13, 59, 56, 0.75);
+            background: rgba(13, 59, 56, 0.82);
             backdrop-filter: blur(16px);
             -webkit-backdrop-filter: blur(16px);
-            border: 1px solid rgba(30, 165, 255, 0.2);
+            border: 1px solid rgba(30, 165, 255, 0.25);
         }
 
         .glass-card {
             background: rgba(15, 82, 77, 0.35);
             backdrop-filter: blur(14px);
-            border: 1px solid rgba(255, 87, 34, 0.2);
+            border: 1px solid rgba(255, 87, 34, 0.25);
             transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
         }
 
@@ -90,12 +88,6 @@
 
         .text-gradient {
             background: linear-gradient(135deg, #1ea5ff 0%, #ffffff 50%, #ff5722 100%);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-        }
-
-        .text-gradient-logo {
-            background: linear-gradient(135deg, #1ea5ff 0%, #ff5722 100%);
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
         }
@@ -114,7 +106,21 @@
             filter: drop-shadow(0 0 12px rgba(255, 87, 34, 0.4)) drop-shadow(0 0 20px rgba(30, 165, 255, 0.4));
         }
 
-        /* Custom Scrollbar */
+        @media print {
+            body * {
+                visibility: hidden;
+            }
+            #printable-ticket, #printable-ticket * {
+                visibility: visible;
+            }
+            #printable-ticket {
+                position: absolute;
+                left: 0;
+                top: 0;
+                width: 100%;
+            }
+        }
+
         ::-webkit-scrollbar {
             width: 9px;
         }
@@ -133,21 +139,19 @@
 </head>
 <body class="font-sans antialiased selection:bg-brand-orangeCoral selection:text-white">
 
-    <!-- Header Navbar -->
     <header class="fixed top-0 left-0 right-0 z-50 transition-all duration-300" id="navbar">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <div class="flex items-center justify-between h-20 glass-panel my-3 px-5 sm:px-7 rounded-2xl border border-brand-orangeCoral/30 shadow-xl">
+            <div class="flex items-center justify-between h-20 glass-panel my-3 px-4 sm:px-7 rounded-2xl border border-brand-orangeCoral/30 shadow-xl">
                 
-                <!-- Logo Integration with uploaded image 1000257115.png & Fallback SVG -->
+                <!-- Logo -->
                 <a href="#" class="flex items-center gap-3 group">
                     <div class="relative logo-container-glow transition-transform duration-300 group-hover:scale-105">
                         <img 
                             src="1000257115.png" 
                             alt="Hura Hura Fest Logo" 
-                            class="h-12 w-auto object-contain max-h-12"
+                            class="h-10 sm:h-12 w-auto object-contain max-h-12"
                             onerror="this.onerror=null; this.style.display='none'; document.getElementById('logo-fallback').classList.remove('hidden');"
                         />
-                        <!-- Fallback SVG Logo matching the same style if image fails -->
                         <div id="logo-fallback" class="hidden flex items-center gap-2">
                             <div class="bg-brand-tealMain border-2 border-brand-orangeCoral px-3 py-1 rounded-xl text-brand-cyanSky font-black text-lg shadow-lg">
                                 HURA <span class="text-white">HURA</span> <span class="text-brand-orangeCoral">FEST</span>
@@ -157,7 +161,7 @@
                 </a>
 
                 <!-- Desktop Navigation Links -->
-                <nav class="hidden md:flex items-center space-x-8 text-sm font-bold text-gray-200">
+                <nav class="hidden md:flex items-center space-x-7 text-sm font-bold text-gray-200">
                     <a href="#about" class="hover:text-brand-cyanSky transition-colors">Beranda</a>
                     <a href="#lineup" class="hover:text-brand-cyanSky transition-colors">Lineup Artis</a>
                     <a href="#venue" class="hover:text-brand-cyanSky transition-colors">Venue & Lokasi</a>
@@ -165,17 +169,29 @@
                     <a href="#schedule" class="hover:text-brand-cyanSky transition-colors">Jadwal & FAQ</a>
                 </nav>
 
-                <!-- CTA Button -->
-                <div class="hidden md:flex items-center">
-                    <a href="#tickets" class="btn-gradient px-6 py-2.5 rounded-xl text-white font-extrabold text-sm shadow-lg hover:scale-105 transition-all border border-white/20">
-                        <i class="fa-solid fa-ticket mr-2 text-brand-yellowPop"></i>Tiket Presale
+                <!-- Action Buttons: My Tickets + CTA -->
+                <div class="hidden md:flex items-center gap-3">
+                    <button onclick="openMyTicketsModal()" class="relative glass-panel hover:bg-brand-tealMain px-4 py-2.5 rounded-xl text-brand-cyanSky font-extrabold text-sm border border-brand-cyanSky/50 hover:border-brand-cyanSky transition-all flex items-center gap-2">
+                        <i class="fa-solid fa-ticket-simple text-brand-orangeCoral"></i>
+                        <span>Tiket Saya</span>
+                        <span id="nav-ticket-count" class="bg-brand-orangeCoral text-white text-[10px] font-black px-2 py-0.5 rounded-full border border-white/20">0</span>
+                    </button>
+
+                    <a href="#tickets" class="btn-gradient px-5 py-2.5 rounded-xl text-white font-extrabold text-sm shadow-lg hover:scale-105 transition-all border border-white/20">
+                        <i class="fa-solid fa-cart-shopping mr-1.5 text-brand-yellowPop"></i> Beli Tiket
                     </a>
                 </div>
 
-                <!-- Mobile Menu Button -->
-                <button id="mobile-menu-btn" class="md:hidden text-brand-cyanSky hover:text-white focus:outline-none p-2" aria-label="Toggle Navigation">
-                    <i class="fa-solid fa-bars text-2xl"></i>
-                </button>
+                <!-- Mobile Navigation Actions -->
+                <div class="flex items-center gap-2 md:hidden">
+                    <button onclick="openMyTicketsModal()" class="relative glass-panel p-2.5 rounded-xl text-brand-cyanSky font-bold text-xs border border-brand-cyanSky/40 flex items-center gap-1.5">
+                        <i class="fa-solid fa-ticket-simple text-brand-orangeCoral text-sm"></i>
+                        <span id="nav-ticket-count-mobile" class="bg-brand-orangeCoral text-white text-[10px] font-black px-1.5 py-0.2 rounded-full">0</span>
+                    </button>
+                    <button id="mobile-menu-btn" class="text-brand-cyanSky hover:text-white focus:outline-none p-2" aria-label="Toggle Navigation">
+                        <i class="fa-solid fa-bars text-2xl"></i>
+                    </button>
+                </div>
             </div>
         </div>
 
@@ -187,26 +203,27 @@
                 <a href="#venue" class="mobile-nav-link text-gray-200 hover:text-brand-cyanSky font-bold py-2">Venue & Lokasi</a>
                 <a href="#tickets" class="mobile-nav-link text-gray-200 hover:text-brand-cyanSky font-bold py-2">Beli Tiket</a>
                 <a href="#schedule" class="mobile-nav-link text-gray-200 hover:text-brand-cyanSky font-bold py-2">Jadwal & FAQ</a>
+                
+                <button onclick="openMyTicketsModal(); document.getElementById('mobile-menu').classList.add('hidden')" class="w-full glass-panel py-3 rounded-xl text-brand-cyanSky font-black border border-brand-cyanSky/50 flex items-center justify-center gap-2">
+                    <i class="fa-solid fa-ticket-simple text-brand-orangeCoral"></i> Tiket Saya (<span id="mobile-menu-ticket-count">0</span>)
+                </button>
+                
                 <a href="#tickets" class="mobile-nav-link btn-gradient py-3 rounded-xl text-white font-black block">Beli Tiket Sekarang</a>
             </div>
         </div>
     </header>
 
     <section id="about" class="relative min-h-screen pt-36 pb-20 flex items-center justify-center overflow-hidden">
-        <!-- Glowing Accent Background Spheres matching the brand colors -->
         <div class="absolute top-1/4 left-5 w-96 h-96 bg-brand-cyanSky/20 rounded-full blur-3xl pointer-events-none animate-pulse-glow"></div>
         <div class="absolute bottom-10 right-5 w-96 h-96 bg-brand-orangeCoral/25 rounded-full blur-3xl pointer-events-none animate-float"></div>
         <div class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[650px] h-[650px] bg-brand-tealBright/15 rounded-full blur-3xl pointer-events-none"></div>
 
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10 text-center">
-            
-            <!-- Hero Top Badge -->
             <div class="inline-flex items-center gap-2 px-5 py-2 rounded-full glass-panel border border-brand-cyanSky/50 text-brand-cyanSky text-xs sm:text-sm font-extrabold mb-8 tracking-wider shadow-lg">
                 <span class="w-3 h-3 rounded-full bg-brand-orangeCoral animate-ping"></span>
                 INDONESIA'S MOST ENERGETIC MUSIC FESTIVAL
             </div>
 
-            <!-- Big Centered Hero Logo Showcase -->
             <div class="mb-6 flex justify-center">
                 <img 
                     src="1000257115.png" 
@@ -216,7 +233,6 @@
                 />
             </div>
 
-            <!-- Main Headline Text -->
             <h1 class="text-4xl sm:text-6xl md:text-7xl font-black tracking-tight text-white mb-6 uppercase leading-tight">
                 Pesta Musik <span class="text-gradient">Tak Terlupakan!</span>
             </h1>
@@ -225,7 +241,6 @@
                 Bergabunglah di <strong class="text-brand-cyanSky font-bold">Hura Hura Fest 2027</strong>! Pengalaman panggung luar biasa, visual laser interaktif, dan kolaborasi musisi favorit papan atas dunia & lokal!
             </p>
 
-            <!-- Event Details Pill -->
             <div class="flex flex-wrap items-center justify-center gap-4 sm:gap-6 mb-12 text-sm sm:text-base font-bold text-gray-100">
                 <div class="flex items-center gap-2.5 glass-panel px-5 py-3 rounded-2xl border border-brand-orangeCoral/40 shadow-md">
                     <i class="fa-regular fa-calendar-check text-brand-orangeCoral text-lg"></i>
@@ -237,7 +252,6 @@
                 </div>
             </div>
 
-            <!-- Countdown Timer -->
             <div class="mb-12 max-w-3xl mx-auto">
                 <p class="text-xs uppercase tracking-widest text-brand-cyanSky mb-4 font-black">HITUNG MUNDUR ACARA</p>
                 <div class="grid grid-cols-4 gap-3 sm:gap-5 max-w-2xl mx-auto">
@@ -260,14 +274,13 @@
                 </div>
             </div>
 
-            <!-- Call To Action Buttons -->
-            <div class="flex flex-col sm:flex-row justify-center items-center gap-5">
+            <div class="flex flex-col sm:flex-row justify-center items-center gap-4">
                 <a href="#tickets" class="w-full sm:w-auto btn-gradient px-9 py-4 rounded-2xl text-white font-black text-base shadow-2xl flex items-center justify-center gap-3 border border-white/30 hover:scale-105">
                     <i class="fa-solid fa-ticket text-xl text-brand-yellowPop"></i> Beli Tiket Presale
                 </a>
-                <a href="#lineup" class="w-full sm:w-auto glass-panel hover:bg-brand-tealMain/80 px-9 py-4 rounded-2xl text-white font-extrabold text-base transition-all border border-brand-cyanSky/40 flex items-center justify-center gap-2 hover:scale-105">
-                    <i class="fa-solid fa-play text-xs text-brand-orangeCoral"></i> Lihat Lineup Artis
-                </a>
+                <button onclick="openMyTicketsModal()" class="w-full sm:w-auto glass-panel hover:bg-brand-tealMain/80 px-9 py-4 rounded-2xl text-white font-extrabold text-base transition-all border border-brand-cyanSky/50 flex items-center justify-center gap-2 hover:scale-105">
+                    <i class="fa-solid fa-ticket-simple text-brand-orangeCoral"></i> Lihat Tiket Saya
+                </button>
             </div>
         </div>
     </section>
@@ -282,7 +295,6 @@
                 <p class="text-gray-300 font-medium">Deretan musisi papan atas dunia dan tanah air yang siap menggetarkan panggung Hura Hura Festival 2027.</p>
             </div>
 
-            <!-- Category Filter Tabs -->
             <div class="flex justify-center items-center gap-3 mb-12 flex-wrap" id="lineup-filters">
                 <button data-filter="all" class="filter-btn active px-6 py-3 rounded-2xl text-sm font-extrabold glass-panel border-2 border-brand-orangeCoral text-white shadow-lg">Semua Performers</button>
                 <button data-filter="headliner" class="filter-btn px-6 py-3 rounded-2xl text-sm font-bold glass-panel text-gray-300 hover:text-white border border-white/10">Headliners</button>
@@ -290,9 +302,8 @@
                 <button data-filter="local" class="filter-btn px-6 py-3 rounded-2xl text-sm font-bold glass-panel text-gray-300 hover:text-white border border-white/10">Local Heroes</button>
             </div>
 
-            <!-- Dynamic Performers Grid -->
             <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8" id="performers-grid">
-                <!-- Cards injected by JS -->
+                <!-- Performers injected by JavaScript -->
             </div>
         </div>
     </section>
@@ -300,8 +311,6 @@
     <section id="venue" class="py-24 relative z-10">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <div class="grid grid-cols-1 lg:grid-cols-12 gap-12 items-center">
-                
-                <!-- Venue Text Info -->
                 <div class="lg:col-span-5 space-y-6">
                     <div class="inline-block px-4 py-1.5 rounded-lg bg-brand-orangeCoral/20 border border-brand-orangeCoral/40 text-brand-orangeCoral text-xs font-black uppercase tracking-widest">
                         INFORMASI LOKASI VENUE
@@ -322,658 +331,4 @@
                             </div>
                         </div>
 
-                        <div class="flex items-start gap-4 glass-card p-4 rounded-2xl border-brand-orangeCoral/30">
-                            <div class="w-12 h-12 rounded-xl bg-brand-orangeCoral/20 flex items-center justify-center text-brand-orangeCoral text-xl shrink-0 border border-brand-orangeCoral/40">
-                                <i class="fa-solid fa-clock"></i>
-                            </div>
-                            <div>
-                                <h4 class="text-white font-extrabold text-sm">Waktu Gate Opened</h4>
-                                <p class="text-gray-300 text-xs mt-1">Open Gate: 13:00 WIB | Main Concert: 16:00 - 23:30 WIB</p>
-                            </div>
-                        </div>
-
-                        <div class="flex items-start gap-4 glass-card p-4 rounded-2xl border-brand-cyanSky/30">
-                            <div class="w-12 h-12 rounded-xl bg-brand-tealBright/20 flex items-center justify-center text-brand-cyanSky text-xl shrink-0 border border-brand-tealBright/40">
-                                <i class="fa-solid fa-shield-halved"></i>
-                            </div>
-                            <div>
-                                <h4 class="text-white font-extrabold text-sm">Fasilitas Penonton</h4>
-                                <p class="text-gray-300 text-xs mt-1">F&B Festival Zone, Medical Center, Official Merch Booth, Locker Room & Charging Station.</p>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Venue Visual Map Preview -->
-                <div class="lg:col-span-7">
-                    <div class="glass-panel p-5 rounded-3xl border-2 border-brand-cyanSky/40 relative overflow-hidden shadow-2xl">
-                        <div class="flex items-center justify-between px-4 py-3 bg-slate-950/80 rounded-xl mb-4 border border-white/10">
-                            <div class="flex items-center gap-2">
-                                <span class="w-3 h-3 rounded-full bg-brand-orangeCoral"></span>
-                                <span class="w-3 h-3 rounded-full bg-brand-yellowPop"></span>
-                                <span class="w-3 h-3 rounded-full bg-brand-cyanSky"></span>
-                                <span class="text-xs text-gray-300 font-mono ml-2">hurahura-stadium-map.v2</span>
-                            </div>
-                            <span class="text-xs text-brand-cyanSky bg-brand-cyanSky/20 font-bold px-3 py-1 rounded-full border border-brand-cyanSky/40">Interactive Stage</span>
-                        </div>
-
-                        <div class="relative w-full h-[360px] sm:h-[420px] rounded-2xl bg-brand-tealDark overflow-hidden flex items-center justify-center border border-white/10 group">
-                            <!-- Stripe Background Simulation inside Map -->
-                            <div class="absolute inset-0 opacity-20 bg-[repeating-linear-gradient(-45deg,#1ea5ff,#1ea5ff_20px,#0d3b38_20px,#0d3b38_50px)]"></div>
-
-                            <div class="relative z-10 w-full max-w-md p-6 text-center">
-                                <!-- Main Stage Box -->
-                                <div class="p-6 bg-gradient-to-r from-brand-orangeCoral/40 via-brand-cyanSky/40 to-brand-orangeCoral/40 rounded-2xl border-2 border-brand-orangeCoral backdrop-blur-md mb-4 shadow-xl transform group-hover:scale-105 transition-transform">
-                                    <span class="text-xs font-black text-brand-yellowPop tracking-widest uppercase block mb-1">MAIN STAGE</span>
-                                    <h3 class="text-2xl font-black text-white">HURA HURA FESTIVAL STAGE</h3>
-                                </div>
-
-                                <div class="grid grid-cols-2 gap-3 mb-4">
-                                    <div class="p-3 bg-brand-orangeCoral/25 border border-brand-orangeCoral/60 rounded-xl text-brand-orangeCoral font-black text-xs">
-                                        VIP FRONT ZONE
-                                    </div>
-                                    <div class="p-3 bg-brand-cyanSky/25 border border-brand-cyanSky/60 rounded-xl text-brand-cyanSky font-black text-xs">
-                                        VVIP LOUNGE
-                                    </div>
-                                </div>
-
-                                <div class="p-3 bg-brand-tealBright/30 border border-brand-cyanSky/40 rounded-xl text-white font-extrabold text-xs">
-                                    FESTIVAL GENERAL ADMISSION (CAT 1 & CAT 2)
-                                </div>
-                            </div>
-
-                            <div class="absolute bottom-4 left-4 right-4 bg-slate-950/90 backdrop-blur-md p-3.5 rounded-xl border border-white/10 flex justify-between items-center text-xs">
-                                <span class="text-gray-200 font-medium"><i class="fa-solid fa-circle-info text-brand-cyanSky mr-1"></i> GBK Senayan Stadium, Jakarta</span>
-                                <a href="https://maps.google.com" target="_blank" class="text-brand-orangeCoral hover:underline font-extrabold flex items-center gap-1">
-                                    Buka Google Maps <i class="fa-solid fa-arrow-up-right-from-square text-[10px]"></i>
-                                </a>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
-            </div>
-        </div>
-    </section>
-
-    <section id="tickets" class="py-24 relative z-10 bg-black/40">
-        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <div class="text-center max-w-3xl mx-auto mb-16">
-                <span class="px-4 py-1.5 rounded-full bg-brand-orangeCoral/20 border border-brand-orangeCoral/40 text-brand-orangeCoral text-xs font-black uppercase tracking-widest">
-                    TIKET PRESALE TERSEDIA
-                </span>
-                <h2 class="text-3xl sm:text-5xl font-black text-white mt-4 mb-4">PILIH <span class="text-gradient">TIKETMU SEKARANG</span></h2>
-                <p class="text-gray-300 font-medium">Dapatkan tiket resmi Hura Hura Fest 2027 sebelum kehabisan!</p>
-            </div>
-
-            <!-- Ticket Grid Cards -->
-            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
-                
-                <!-- Ticket Card 1: Early Bird (Sold Out) -->
-                <div class="glass-card rounded-3xl p-6 flex flex-col justify-between relative opacity-75 border-gray-700">
-                    <div>
-                        <div class="bg-gray-800 text-gray-400 text-[10px] font-black px-3 py-1 rounded-full w-max mb-4">
-                            SOLD OUT
-                        </div>
-                        <h3 class="text-xl font-black text-white mb-1">Early Bird</h3>
-                        <p class="text-xs text-gray-400 mb-4">Pass 2 Hari (Festival Area)</p>
-                        <div class="mb-6">
-                            <span class="text-2xl font-black text-gray-500 line-through">Rp 750.000</span>
-                        </div>
-                        <ul class="space-y-3 text-xs text-gray-400 mb-8">
-                            <li class="flex items-center gap-2"><i class="fa-solid fa-check text-gray-600"></i> Festival Standing Area</li>
-                            <li class="flex items-center gap-2"><i class="fa-solid fa-check text-gray-600"></i> Standard Wristband</li>
-                            <li class="flex items-center gap-2"><i class="fa-solid fa-xmark text-red-500"></i> Fast Track Access</li>
-                        </ul>
-                    </div>
-                    <button disabled class="w-full py-3.5 rounded-xl bg-gray-800 text-gray-500 font-bold text-sm cursor-not-allowed">
-                        Habis Terjual
-                    </button>
-                </div>
-
-                <!-- Ticket Card 2: Presale 1 -->
-                <div class="glass-card rounded-3xl p-6 flex flex-col justify-between relative border-brand-cyanSky/40 hover:border-brand-cyanSky">
-                    <div>
-                        <div class="bg-brand-cyanSky/20 text-brand-cyanSky text-[10px] font-black px-3 py-1 rounded-full w-max mb-4 border border-brand-cyanSky/40 animate-pulse">
-                            SELLING FAST
-                        </div>
-                        <h3 class="text-xl font-black text-white mb-1">Presale 1</h3>
-                        <p class="text-xs text-gray-300 mb-4">Pass 2 Hari (Festival Area)</p>
-                        <div class="mb-6">
-                            <span class="text-3xl font-black text-white">Rp 1.150.000</span>
-                            <span class="text-xs text-gray-300 block mt-1">/tiket</span>
-                        </div>
-                        <ul class="space-y-3 text-xs text-gray-200 mb-8">
-                            <li class="flex items-center gap-2"><i class="fa-solid fa-check text-brand-cyanSky"></i> Festival Standing Zone</li>
-                            <li class="flex items-center gap-2"><i class="fa-solid fa-check text-brand-cyanSky"></i> Official Hura Hura Lanyard</li>
-                            <li class="flex items-center gap-2"><i class="fa-solid fa-check text-brand-cyanSky"></i> Free Digital Booklet</li>
-                            <li class="flex items-center gap-2 text-gray-500"><i class="fa-solid fa-xmark text-gray-600"></i> Fast Track Gate</li>
-                        </ul>
-                    </div>
-                    <button onclick="openBookingModal('Presale 1', 1150000)" class="w-full btn-gradient py-3.5 rounded-xl text-white font-extrabold text-sm shadow-lg hover:scale-102 transition-transform">
-                        Beli Tiket
-                    </button>
-                </div>
-
-                <!-- Ticket Card 3: VIP (Featured Card) -->
-                <div class="glass-card rounded-3xl p-6 flex flex-col justify-between relative border-2 border-brand-orangeCoral shadow-2xl scale-102 bg-gradient-to-b from-brand-orangeCoral/15 to-transparent">
-                    <div class="absolute -top-3.5 left-1/2 -translate-x-1/2 bg-gradient-to-r from-brand-orangeCoral to-brand-cyanSky text-white text-[10px] font-black px-4 py-1 rounded-full tracking-wider uppercase shadow-md border border-white/30">
-                        MOST POPULAR
-                    </div>
-                    <div class="pt-2">
-                        <div class="bg-brand-orangeCoral/20 text-brand-orangeCoral text-[10px] font-black px-3 py-1 rounded-full w-max mb-4 border border-brand-orangeCoral/40">
-                            LIMITED SEATS
-                        </div>
-                        <h3 class="text-xl font-black text-white mb-1">VIP Area</h3>
-                        <p class="text-xs text-gray-300 mb-4">Panggung Depan & VIP Front Lounge</p>
-                        <div class="mb-6">
-                            <span class="text-3xl font-black text-brand-yellowPop">Rp 2.250.000</span>
-                            <span class="text-xs text-gray-300 block mt-1">/tiket</span>
-                        </div>
-                        <ul class="space-y-3 text-xs text-gray-100 mb-8">
-                            <li class="flex items-center gap-2"><i class="fa-solid fa-circle-check text-brand-cyanSky"></i> Front-Row Viewing Zone</li>
-                            <li class="flex items-center gap-2"><i class="fa-solid fa-circle-check text-brand-cyanSky"></i> Express Fast-Track Entrance</li>
-                            <li class="flex items-center gap-2"><i class="fa-solid fa-circle-check text-brand-cyanSky"></i> Official Merch Pack</li>
-                            <li class="flex items-center gap-2"><i class="fa-solid fa-circle-check text-brand-cyanSky"></i> Dedicated F&B Bar Zone</li>
-                        </ul>
-                    </div>
-                    <button onclick="openBookingModal('VIP Area', 2250000)" class="w-full btn-gradient py-3.5 rounded-xl text-white font-black text-sm shadow-xl hover:scale-102 transition-transform">
-                        Beli VIP Tiket
-                    </button>
-                </div>
-
-                <!-- Ticket Card 4: VVIP Lounge -->
-                <div class="glass-card rounded-3xl p-6 flex flex-col justify-between relative border-brand-cyanSky/40 hover:border-brand-cyanSky">
-                    <div>
-                        <div class="bg-brand-cyanSky/20 text-brand-cyanSky text-[10px] font-black px-3 py-1 rounded-full w-max mb-4 border border-brand-cyanSky/40">
-                            ULTIMATE EXPERIENCE
-                        </div>
-                        <h3 class="text-xl font-black text-white mb-1">VVIP Lounge</h3>
-                        <p class="text-xs text-gray-300 mb-4">Akses Eksklusif All-Inclusive</p>
-                        <div class="mb-6">
-                            <span class="text-3xl font-black text-white">Rp 4.500.000</span>
-                            <span class="text-xs text-gray-300 block mt-1">/tiket</span>
-                        </div>
-                        <ul class="space-y-3 text-xs text-gray-200 mb-8">
-                            <li class="flex items-center gap-2"><i class="fa-solid fa-star text-brand-yellowPop"></i> Air-Conditioned Royal Lounge</li>
-                            <li class="flex items-center gap-2"><i class="fa-solid fa-star text-brand-yellowPop"></i> Free-Flow Food & Beverage</li>
-                            <li class="flex items-center gap-2"><i class="fa-solid fa-star text-brand-yellowPop"></i> Meet & Greet Pass (Raffle)</li>
-                            <li class="flex items-center gap-2"><i class="fa-solid fa-star text-brand-yellowPop"></i> VIP Parking Access</li>
-                        </ul>
-                    </div>
-                    <button onclick="openBookingModal('VVIP Lounge', 4500000)" class="w-full bg-brand-cyanSky hover:bg-cyan-500 py-3.5 rounded-xl text-black font-black text-sm transition-colors shadow-lg">
-                        Beli VVIP Tiket
-                    </button>
-                </div>
-
-            </div>
-        </div>
-    </section>
-
-    <section id="schedule" class="py-24 relative z-10">
-        <div class="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8">
-            <div class="grid grid-cols-1 md:grid-cols-2 gap-12">
-                
-                <!-- Schedule Rundown -->
-                <div>
-                    <h2 class="text-2xl sm:text-3xl font-black text-white mb-8 flex items-center gap-3">
-                        <i class="fa-solid fa-list-check text-brand-orangeCoral"></i> RUNDOWN ACARA
-                    </h2>
-                    
-                    <div class="space-y-4">
-                        <div class="glass-panel p-4 rounded-2xl border border-white/10 flex gap-4 items-center">
-                            <span class="text-brand-orangeCoral font-mono font-black text-sm bg-brand-orangeCoral/20 px-3 py-1.5 rounded-xl border border-brand-orangeCoral/40">13:00</span>
-                            <div>
-                                <h4 class="text-white font-extrabold text-sm">Gate Open & Security Check</h4>
-                                <p class="text-gray-300 text-xs mt-0.5">Penukaran wristband & pemeriksaan barang.</p>
-                            </div>
-                        </div>
-
-                        <div class="glass-panel p-4 rounded-2xl border border-white/10 flex gap-4 items-center">
-                            <span class="text-brand-cyanSky font-mono font-black text-sm bg-brand-cyanSky/20 px-3 py-1.5 rounded-xl border border-brand-cyanSky/40">16:00</span>
-                            <div>
-                                <h4 class="text-white font-extrabold text-sm">Opening & Local Heroes</h4>
-                                <p class="text-gray-300 text-xs mt-0.5">Penampilan musisi lokal pilihan pembuka acara.</p>
-                            </div>
-                        </div>
-
-                        <div class="glass-panel p-4 rounded-2xl border border-white/10 flex gap-4 items-center">
-                            <span class="text-brand-yellowPop font-mono font-black text-sm bg-brand-yellowPop/20 px-3 py-1.5 rounded-xl border border-brand-yellowPop/40">19:30</span>
-                            <div>
-                                <h4 class="text-white font-extrabold text-sm">Guest Stars Multi-Genre Stage</h4>
-                                <p class="text-gray-300 text-xs mt-0.5">Kolaborasi spektakuler genre electronic, rock & pop.</p>
-                            </div>
-                        </div>
-
-                        <div class="glass-panel p-4 rounded-2xl border border-white/10 flex gap-4 items-center">
-                            <span class="text-brand-cyanSky font-mono font-black text-sm bg-brand-cyanSky/20 px-3 py-1.5 rounded-xl border border-brand-cyanSky/40">21:30</span>
-                            <div>
-                                <h4 class="text-white font-extrabold text-sm">Headliners Concert & Laser Show</h4>
-                                <p class="text-gray-300 text-xs mt-0.5">Konser musisi utama & kembang api raksasa.</p>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- FAQ Accordion -->
-                <div>
-                    <h2 class="text-2xl sm:text-3xl font-black text-white mb-8 flex items-center gap-3">
-                        <i class="fa-solid fa-circle-question text-brand-cyanSky"></i> FAQ HURA HURA FEST
-                    </h2>
-
-                    <div class="space-y-3.5" id="faq-accordion">
-                        <div class="glass-panel rounded-2xl border border-white/10 overflow-hidden">
-                            <button class="faq-toggle w-full p-4 text-left font-bold text-sm text-white flex justify-between items-center gap-2">
-                                <span>Bagaimana cara penukaran e-tiket ke wristband?</span>
-                                <i class="fa-solid fa-chevron-down text-xs text-brand-cyanSky transition-transform"></i>
-                            </button>
-                            <div class="faq-content hidden p-4 pt-0 text-xs text-gray-300 border-t border-white/5 leading-relaxed">
-                                Penukaran wristband dapat dilakukan H-1 acara di Ticket Booth GBK Senayan dengan menunjukkan e-voucher email dan KTP/SIM pemesan.
-                            </div>
-                        </div>
-
-                        <div class="glass-panel rounded-2xl border border-white/10 overflow-hidden">
-                            <button class="faq-toggle w-full p-4 text-left font-bold text-sm text-white flex justify-between items-center gap-2">
-                                <span>Apakah tiket yang sudah dibeli dapat di-refund?</span>
-                                <i class="fa-solid fa-chevron-down text-xs text-brand-cyanSky transition-transform"></i>
-                            </button>
-                            <div class="faq-content hidden p-4 pt-0 text-xs text-gray-300 border-t border-white/5 leading-relaxed">
-                                Tiket bersifat Non-Refundable (tidak dapat dikembalikan), kecuali jika terjadi pembatalan resmi dari pihak penyelenggara.
-                            </div>
-                        </div>
-
-                        <div class="glass-panel rounded-2xl border border-white/10 overflow-hidden">
-                            <button class="faq-toggle w-full p-4 text-left font-bold text-sm text-white flex justify-between items-center gap-2">
-                                <span>Metode pembayaran apa saja yang didukung?</span>
-                                <i class="fa-solid fa-chevron-down text-xs text-brand-cyanSky transition-transform"></i>
-                            </button>
-                            <div class="faq-content hidden p-4 pt-0 text-xs text-gray-300 border-t border-white/5 leading-relaxed">
-                                Kami mendukung pembayaran via QRIS (Gopay, OVO, Dana, ShopeePay), Transfer Virtual Account Bank, serta Kartu Kredit/Debit.
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
-            </div>
-        </div>
-    </section>
-
-    <!-- Booking Checkout Modal -->
-    <div id="booking-modal" class="fixed inset-0 z-50 hidden flex items-center justify-center p-4 bg-black/85 backdrop-blur-md overflow-y-auto">
-        <div class="glass-panel bg-brand-tealDark border-2 border-brand-orangeCoral w-full max-w-lg rounded-3xl p-6 sm:p-8 relative shadow-2xl my-8">
-            <button onclick="closeBookingModal()" class="absolute top-5 right-5 text-gray-300 hover:text-white text-xl p-2" aria-label="Close Modal">
-                <i class="fa-solid fa-xmark"></i>
-            </button>
-
-            <div class="mb-6">
-                <span class="text-xs text-brand-orangeCoral font-black uppercase tracking-widest block">PEMESANAN TIKET RESMI</span>
-                <h3 class="text-2xl font-black text-white" id="modal-ticket-title">Beli Tiket Presale 1</h3>
-            </div>
-
-            <form id="ticket-form" onsubmit="handleFormSubmit(event)" class="space-y-4">
-                <input type="hidden" id="selected-ticket-type">
-                <input type="hidden" id="selected-ticket-price">
-
-                <div>
-                    <label class="block text-xs font-extrabold text-gray-200 mb-1.5">Nama Lengkap (KTP)</label>
-                    <input type="text" id="buyer-name" required placeholder="Budi Santoso" class="w-full bg-slate-950 border border-brand-cyanSky/40 rounded-xl px-4 py-3 text-sm text-white focus:outline-none focus:border-brand-orangeCoral transition-colors">
-                </div>
-
-                <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                    <div>
-                        <label class="block text-xs font-extrabold text-gray-200 mb-1.5">Alamat Email</label>
-                        <input type="email" id="buyer-email" required placeholder="budi@example.com" class="w-full bg-slate-950 border border-brand-cyanSky/40 rounded-xl px-4 py-3 text-sm text-white focus:outline-none focus:border-brand-orangeCoral transition-colors">
-                    </div>
-                    <div>
-                        <label class="block text-xs font-extrabold text-gray-200 mb-1.5">Nomor WhatsApp</label>
-                        <input type="tel" id="buyer-phone" required placeholder="081234567890" class="w-full bg-slate-950 border border-brand-cyanSky/40 rounded-xl px-4 py-3 text-sm text-white focus:outline-none focus:border-brand-orangeCoral transition-colors">
-                    </div>
-                </div>
-
-                <div>
-                    <label class="block text-xs font-extrabold text-gray-200 mb-1.5">Jumlah Tiket (Max 4)</label>
-                    <div class="flex items-center gap-3">
-                        <button type="button" onclick="updateQuantity(-1)" class="w-10 h-10 rounded-xl bg-brand-tealMain text-white font-black hover:bg-brand-orangeCoral transition-colors flex items-center justify-center border border-white/20">-</button>
-                        <span id="ticket-qty" class="text-lg font-black text-white w-8 text-center">1</span>
-                        <button type="button" onclick="updateQuantity(1)" class="w-10 h-10 rounded-xl bg-brand-tealMain text-white font-black hover:bg-brand-orangeCoral transition-colors flex items-center justify-center border border-white/20">+</button>
-                    </div>
-                </div>
-
-                <div>
-                    <label class="block text-xs font-extrabold text-gray-200 mb-1.5">Metode Pembayaran</label>
-                    <select id="payment-method" required class="w-full bg-slate-950 border border-brand-cyanSky/40 rounded-xl px-4 py-3 text-sm text-white focus:outline-none focus:border-brand-orangeCoral transition-colors">
-                        <option value="qris">QRIS Instant (Gopay/OVO/Dana/Shopee)</option>
-                        <option value="bca">Bank BCA Virtual Account</option>
-                        <option value="mandiri">Bank Mandiri Virtual Account</option>
-                        <option value="card">Kartu Kredit / Debit</option>
-                    </select>
-                </div>
-
-                <div class="glass-panel p-4 rounded-xl border border-white/10 space-y-2 mt-4">
-                    <div class="flex justify-between text-xs text-gray-300">
-                        <span>Harga per Tiket</span>
-                        <span id="summary-unit-price">Rp 0</span>
-                    </div>
-                    <div class="flex justify-between text-xs text-gray-300">
-                        <span>Pajak & Biaya Layanan (11%)</span>
-                        <span id="summary-tax">Rp 0</span>
-                    </div>
-                    <div class="border-t border-white/10 pt-2 flex justify-between text-sm font-black text-white">
-                        <span>Total Pembayaran</span>
-                        <span id="summary-total-price" class="text-brand-orangeCoral">Rp 0</span>
-                    </div>
-                </div>
-
-                <button type="submit" class="w-full btn-gradient py-4 rounded-xl text-white font-black text-base shadow-xl hover:scale-101 transition-transform mt-2">
-                    <i class="fa-solid fa-lock mr-2"></i>Bayar Tiket Sekarang
-                </button>
-            </form>
-        </div>
-    </div>
-
-    <!-- E-Ticket Invoice Modal -->
-    <div id="invoice-modal" class="fixed inset-0 z-50 hidden flex items-center justify-center p-4 bg-black/90 backdrop-blur-md overflow-y-auto">
-        <div class="glass-panel bg-brand-tealDark border-2 border-brand-cyanSky w-full max-w-md rounded-3xl p-6 sm:p-8 text-center relative shadow-2xl my-8">
-            <div class="w-16 h-16 bg-green-500/20 text-green-400 rounded-full flex items-center justify-center text-3xl mx-auto mb-4 border border-green-500/40">
-                <i class="fa-solid fa-circle-check"></i>
-            </div>
-
-            <h3 class="text-2xl font-black text-white mb-1">PEMESANAN BERHASIL!</h3>
-            <p class="text-xs text-gray-300 mb-6">E-Voucher Hura Hura Fest telah dikirim ke email kamu.</p>
-
-            <div class="bg-slate-950 p-5 rounded-2xl border border-white/10 text-left text-xs space-y-3 mb-6 relative overflow-hidden">
-                <div class="border-b border-gray-800 pb-2.5 flex justify-between items-center">
-                    <span class="text-gray-400">Kode Booking:</span>
-                    <span class="font-mono text-brand-cyanSky font-black" id="inv-code">#HURA2027-8921</span>
-                </div>
-                <div class="flex justify-between">
-                    <span class="text-gray-400">Nama Pemesan:</span>
-                    <span class="text-white font-bold" id="inv-name">Budi Santoso</span>
-                </div>
-                <div class="flex justify-between">
-                    <span class="text-gray-400">Kategori Tiket:</span>
-                    <span class="text-white font-bold" id="inv-type">Presale 1</span>
-                </div>
-                <div class="flex justify-between">
-                    <span class="text-gray-400">Jumlah Tiket:</span>
-                    <span class="text-white font-bold" id="inv-qty">1 Tiket</span>
-                </div>
-                <div class="border-t border-gray-800 pt-2.5 flex justify-between font-black text-sm">
-                    <span class="text-white">Total Lunas:</span>
-                    <span class="text-brand-orangeCoral" id="inv-total">Rp 1.276.500</span>
-                </div>
-            </div>
-
-            <button onclick="closeInvoiceModal()" class="w-full bg-brand-tealMain hover:bg-brand-orangeCoral py-3.5 rounded-xl text-white font-black text-sm transition-colors border border-white/20">
-                Selesai & Kembali
-            </button>
-        </div>
-    </div>
-
-    <!-- Footer -->
-    <footer class="bg-slate-950 border-t border-brand-orangeCoral/30 py-12 relative z-10 text-gray-300 text-xs sm:text-sm">
-        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <div class="grid grid-cols-1 md:grid-cols-4 gap-8 mb-12">
-                <div class="space-y-4 md:col-span-1">
-                    <img src="1000257115.png" alt="Hura Hura Fest Logo Footer" class="h-10 w-auto object-contain logo-container-glow" />
-                    <p class="text-gray-400 text-xs leading-relaxed">
-                        Pesta festival musik dan seni terbesar di Indonesia dengan sensasi panggung paling spektakuler.
-                    </p>
-                </div>
-
-                <div>
-                    <h4 class="text-white font-black mb-4 text-xs uppercase tracking-wider text-brand-cyanSky">Navigasi Utama</h4>
-                    <ul class="space-y-2">
-                        <li><a href="#about" class="hover:text-brand-orangeCoral transition-colors">Beranda</a></li>
-                        <li><a href="#lineup" class="hover:text-brand-orangeCoral transition-colors">Lineup Artis</a></li>
-                        <li><a href="#venue" class="hover:text-brand-orangeCoral transition-colors">Venue & Peta</a></li>
-                        <li><a href="#tickets" class="hover:text-brand-orangeCoral transition-colors">Beli Tiket Presale</a></li>
-                    </ul>
-                </div>
-
-                <div>
-                    <h4 class="text-white font-black mb-4 text-xs uppercase tracking-wider text-brand-cyanSky">Sosial Media</h4>
-                    <div class="flex gap-3">
-                        <a href="#" class="w-10 h-10 rounded-xl glass-panel flex items-center justify-center hover:text-brand-orangeCoral transition-colors border border-white/10"><i class="fa-brands fa-instagram text-lg"></i></a>
-                        <a href="#" class="w-10 h-10 rounded-xl glass-panel flex items-center justify-center hover:text-brand-orangeCoral transition-colors border border-white/10"><i class="fa-brands fa-tiktok text-lg"></i></a>
-                        <a href="#" class="w-10 h-10 rounded-xl glass-panel flex items-center justify-center hover:text-brand-orangeCoral transition-colors border border-white/10"><i class="fa-brands fa-youtube text-lg"></i></a>
-                    </div>
-                </div>
-
-                <div>
-                    <h4 class="text-white font-black mb-4 text-xs uppercase tracking-wider text-brand-cyanSky">Newsletter Hura Hura</h4>
-                    <p class="text-gray-400 text-xs mb-3">Dapatkan kabar lineup artis tambahan & promo tiket spesial.</p>
-                    <div class="flex gap-2">
-                        <input type="email" placeholder="Email kamu..." class="bg-brand-tealDark border border-brand-cyanSky/40 rounded-xl px-3 py-2 text-xs text-white focus:outline-none focus:border-brand-orangeCoral w-full">
-                        <button onclick="alert('Terima kasih telah berlangganan info Hura Hura Fest!')" class="btn-gradient px-4 rounded-xl text-white font-black text-xs shrink-0">
-                            Join
-                        </button>
-                    </div>
-                </div>
-            </div>
-
-            <div class="border-t border-white/10 pt-8 text-center text-gray-400 text-xs font-medium">
-                <p>&copy; 2027 HURA HURA FESTIVAL. All rights reserved.</p>
-            </div>
-        </div>
-    </footer>
-
-    <script>
-        // --- 1. Performers Data ---
-        const performersData = [
-            {
-                name: "NEON ECLIPSE",
-                category: "headliner",
-                genre: "Synthwave / Electronic",
-                description: "Duo synthwave internasional pemenang Grammy Award dengan efek pertunjukan laser 3D spektakuler.",
-                image: "https://images.unsplash.com/photo-1516450360452-9312f5e86fc7?auto=format&fit=crop&w=600&q=80"
-            },
-            {
-                name: "THE LUMINOUS",
-                category: "headliner",
-                genre: "Alternative Rock",
-                description: "Band rock legendaris pengguncang panggung dengan jutaan pendengar global.",
-                image: "https://images.unsplash.com/photo-1470225620780-dba8ba36b745?auto=format&fit=crop&w=600&q=80"
-            },
-            {
-                name: "AURORA PULSE",
-                category: "guest",
-                genre: "Indie Pop / Electro",
-                description: "Solois electropop favorit anak muda dengan lagu-lagu hits pemuncak tangga lagu.",
-                image: "https://images.unsplash.com/photo-1508700115892-45ecd05ae2ad?auto=format&fit=crop&w=600&q=80"
-            },
-            {
-                name: "NANTARA",
-                category: "local",
-                genre: "Etnik Fusion EDM",
-                description: "Grup musik lokal yang memadukan keindahan gamelan tradisional dengan alunan EDM modern.",
-                image: "https://images.unsplash.com/photo-1511671782779-c97d3d27a1d4?auto=format&fit=crop&w=600&q=80"
-            },
-            {
-                name: "METRO BEATS",
-                category: "guest",
-                genre: "Hip-Hop / R&B",
-                description: "Produser musik ternama yang akan menyajikan kolaborasi live hip-hop menggelegar.",
-                image: "https://images.unsplash.com/photo-1493225457124-a3eb161ffa5f?auto=format&fit=crop&w=600&q=80"
-            },
-            {
-                name: "SENJA SOUNDSYSTEM",
-                category: "local",
-                genre: "Indie Folk / Pop",
-                description: "Band akustik indie favorit dengan lirik syahdu penghangat suasana sore hari.",
-                image: "https://images.unsplash.com/photo-1465847899084-d164df4dedc6?auto=format&fit=crop&w=600&q=80"
-            }
-        ];
-
-        function renderPerformers(filter = 'all') {
-            const grid = document.getElementById('performers-grid');
-            grid.innerHTML = '';
-
-            const filteredData = filter === 'all' 
-                ? performersData 
-                : performersData.filter(item => item.category === filter);
-
-            filteredData.forEach(p => {
-                const card = document.createElement('div');
-                card.className = 'glass-card rounded-3xl overflow-hidden group flex flex-col justify-between border-brand-cyanSky/30';
-                card.innerHTML = `
-                    <div class="relative h-64 overflow-hidden">
-                        <img src="${p.image}" alt="${p.name}" class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500">
-                        <div class="absolute inset-0 bg-gradient-to-t from-slate-950 via-slate-950/20 to-transparent"></div>
-                        <span class="absolute top-4 right-4 text-[10px] font-black uppercase px-3 py-1 rounded-full bg-slate-950/80 text-brand-orangeCoral border border-brand-orangeCoral/50">
-                            ${p.category}
-                        </span>
-                        <div class="absolute bottom-4 left-4 right-4">
-                            <span class="text-xs font-black text-brand-cyanSky tracking-wider uppercase block mb-1">${p.genre}</span>
-                            <h3 class="text-2xl font-black text-white leading-none">${p.name}</h3>
-                        </div>
-                    </div>
-                    <div class="p-6 pt-3">
-                        <p class="text-gray-300 text-xs leading-relaxed mb-4 font-medium">${p.description}</p>
-                        <div class="flex items-center justify-between text-xs font-bold text-gray-200">
-                            <span><i class="fa-solid fa-play text-brand-orangeCoral mr-1"></i> Main Stage</span>
-                            <span class="text-brand-cyanSky hover:underline cursor-pointer">Live Show <i class="fa-solid fa-arrow-right text-[10px] ml-1"></i></span>
-                        </div>
-                    </div>
-                `;
-                grid.appendChild(card);
-            });
-        }
-
-        // Filter Buttons Logic
-        document.querySelectorAll('#lineup-filters button').forEach(button => {
-            button.addEventListener('click', () => {
-                document.querySelectorAll('#lineup-filters button').forEach(btn => {
-                    btn.classList.remove('active', 'border-2', 'border-brand-orangeCoral', 'text-white');
-                    btn.classList.add('border', 'border-white/10', 'text-gray-300');
-                });
-
-                button.classList.add('active', 'border-2', 'border-brand-orangeCoral', 'text-white');
-                button.classList.remove('border', 'border-white/10', 'text-gray-300');
-
-                renderPerformers(button.getAttribute('data-filter'));
-            });
-        });
-
-        // --- 2. Live Countdown Timer ---
-        function startCountdown() {
-            const targetDate = new Date('August 28, 2027 13:00:00').getTime();
-
-            setInterval(() => {
-                const now = new Date().getTime();
-                const difference = targetDate - now;
-
-                if (difference < 0) return;
-
-                const days = Math.floor(difference / (1000 * 60 * 60 * 24));
-                const hours = Math.floor((difference % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
-                const minutes = Math.floor((difference % (1000 * 60 * 60)) / (1000 * 60));
-                const seconds = Math.floor((difference % (1000 * 60)) / 1000);
-
-                document.getElementById('cd-days').innerText = days < 10 ? '0' + days : days;
-                document.getElementById('cd-hours').innerText = hours < 10 ? '0' + hours : hours;
-                document.getElementById('cd-minutes').innerText = minutes < 10 ? '0' + minutes : minutes;
-                document.getElementById('cd-seconds').innerText = seconds < 10 ? '0' + seconds : seconds;
-            }, 1000);
-        }
-
-        // --- 3. Modal Booking Logic ---
-        let currentQty = 1;
-        let unitPrice = 0;
-
-        function openBookingModal(type, price) {
-            unitPrice = price;
-            currentQty = 1;
-
-            document.getElementById('modal-ticket-title').innerText = `Beli Tiket ${type}`;
-            document.getElementById('selected-ticket-type').value = type;
-            document.getElementById('selected-ticket-price').value = price;
-            document.getElementById('ticket-qty').innerText = currentQty;
-
-            updatePriceSummary();
-            document.getElementById('booking-modal').classList.remove('hidden');
-        }
-
-        function closeBookingModal() {
-            document.getElementById('booking-modal').classList.add('hidden');
-        }
-
-        function updateQuantity(change) {
-            if (currentQty + change >= 1 && currentQty + change <= 4) {
-                currentQty += change;
-                document.getElementById('ticket-qty').innerText = currentQty;
-                updatePriceSummary();
-            }
-        }
-
-        function formatIDR(amount) {
-            return new Intl.NumberFormat('id-ID', { style: 'currency', currency: 'IDR', maximumFractionDigits: 0 }).format(amount);
-        }
-
-        function updatePriceSummary() {
-            const subtotal = unitPrice * currentQty;
-            const tax = subtotal * 0.11;
-            const total = subtotal + tax;
-
-            document.getElementById('summary-unit-price').innerText = formatIDR(unitPrice);
-            document.getElementById('summary-tax').innerText = formatIDR(tax);
-            document.getElementById('summary-total-price').innerText = formatIDR(total);
-        }
-
-        function handleFormSubmit(e) {
-            e.preventDefault();
-
-            const name = document.getElementById('buyer-name').value;
-            const type = document.getElementById('selected-ticket-type').value;
-            const subtotal = unitPrice * currentQty;
-            const total = subtotal + (subtotal * 0.11);
-            const randomCode = '#HURA2027-' + Math.floor(1000 + Math.random() * 9000);
-
-            document.getElementById('inv-code').innerText = randomCode;
-            document.getElementById('inv-name').innerText = name;
-            document.getElementById('inv-type').innerText = type;
-            document.getElementById('inv-qty').innerText = `${currentQty} Tiket`;
-            document.getElementById('inv-total').innerText = formatIDR(total);
-
-            closeBookingModal();
-            document.getElementById('invoice-modal').classList.remove('hidden');
-            document.getElementById('ticket-form').reset();
-        }
-
-        function closeInvoiceModal() {
-            document.getElementById('invoice-modal').classList.add('hidden');
-        }
-
-        // --- 4. FAQ Toggle ---
-        document.querySelectorAll('.faq-toggle').forEach(button => {
-            button.addEventListener('click', () => {
-                const content = button.nextElementSibling;
-                const icon = button.querySelector('i');
-
-                content.classList.toggle('hidden');
-                icon.classList.toggle('rotate-180');
-            });
-        });
-
-        // Mobile Nav Toggle
-        const mobileMenuBtn = document.getElementById('mobile-menu-btn');
-        const mobileMenu = document.getElementById('mobile-menu');
-
-        mobileMenuBtn.addEventListener('click', () => {
-            mobileMenu.classList.toggle('hidden');
-        });
-
-        document.querySelectorAll('.mobile-nav-link').forEach(link => {
-            link.addEventListener('click', () => {
-                mobileMenu.classList.add('hidden');
-            });
-        });
-
-        window.onload = function() {
-            renderPerformers('all');
-            startCountdown();
-        };
-    </script>
-</body>
-</html>
-```
+                        <div class="flex items-start gap-4 glass-card p-4 rounded-2xl bor
